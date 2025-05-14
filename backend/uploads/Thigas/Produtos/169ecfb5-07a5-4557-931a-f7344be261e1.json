@@ -1,0 +1,12 @@
+{
+  "id" : 13,
+  "name" : "VidaNintendo",
+  "description" : "Pelucia Mario Bros",
+  "category" : "Pelucia",
+  "price" : "99",
+  "imagePath" : "/uploads/Thigas/Imagens/b4740d33-df0a-448b-b579-25d18468deff.JPG",
+  "modelPath" : "/uploads/Thigas/Modelos/b621b61a-75d0-41cc-a59b-e0cc45d0f584.usdz",
+  "size" : 10,
+  "username" : "Thigas",
+  "info" : [ "VidaNintendo", "Pelucia Mario Bros", "/uploads/Thigas/Imagens/b4740d33-df0a-448b-b579-25d18468deff.JPG", "/uploads/Thigas/Modelos/b621b61a-75d0-41cc-a59b-e0cc45d0f584.usdz" ]
+}
