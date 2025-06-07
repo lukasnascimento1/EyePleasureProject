@@ -39,7 +39,7 @@ public class Artefato implements IProduct{
     private String imagePath, modelPath;
     private Integer size;
 
-    private String username;
+    private String username; // usuario dono do artefato
     
     @Override
     public ArrayList<String> getInfo(){

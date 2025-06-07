@@ -13,49 +13,64 @@ struct RegisterView: View {
     @State private var isLoading = false
 
     var body: some View {
-        VStack(spacing: 16) {
-            Text("Criar Conta")
-                .font(.title)
-                .bold()
+        ScrollView {
+            VStack(spacing: 20) {
+                Image(systemName: "person.crop.circle.badge.plus")
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .foregroundColor(.blue)
+                    .padding(.top, 16)
 
-            TextField("Nome", text: $nome)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            TextField("Email", text: $email)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            TextField("CPF", text: $cpf)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            TextField("Apelido (login)", text: $nickname)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            SecureField("Senha", text: $senha)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+                Text("Criar Nova Conta")
+                    .font(.largeTitle)
+                    .bold()
+                    .multilineTextAlignment(.center)
 
-            if isLoading {
-                ProgressView()
-            } else {
-                Button("Registrar") {
-                    registrarUsuario()
+                Group {
+                    CustomField(icon: "person", placeholder: "Nome", text: $nome)
+                    CustomField(icon: "envelope", placeholder: "Email", text: $email, keyboard: .emailAddress)
+                    CustomField(icon: "creditcard", placeholder: "CPF", text: $cpf, keyboard: .numberPad)
+                    CustomField(icon: "person.fill.questionmark", placeholder: "Apelido (login)", text: $nickname)
+                    CustomSecureField(icon: "lock", placeholder: "Senha", text: $senha)
                 }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-            }
 
-            Text(status)
-                .foregroundColor(.gray)
+                if isLoading {
+                    ProgressView()
+                        .padding(.top)
+                } else {
+                    Button(action: registrarUsuario) {
+                        Label("Registrar", systemImage: "checkmark.circle")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
+                }
 
-            Button("Cancelar") {
-                dismiss()
+                if !status.isEmpty {
+                    Text(status)
+                        .foregroundColor(.gray)
+                        .padding(.top)
+                }
+
+                Button("Cancelar") {
+                    dismiss()
+                }
+                .foregroundColor(.red)
+                .padding(.top, 16)
+
+                Spacer()
             }
-            .padding(.top, 12)
+            .padding()
+            .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .pad ? 600 : .infinity)
         }
-        .padding()
         .navigationTitle("Cadastro")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     func registrarUsuario() {
-        guard let url = URL(string: "\(baseURL)/auth/register") else {
+        guard let url = URL(string: "\(Constants.backendBaseURL)/auth/register") else {
             status = "❌ URL inválida"
             return
         }
@@ -116,6 +131,39 @@ struct RegisterView: View {
     }
 }
 
-//#Preview {
-//    RegisterView()
-//}
+struct CustomField: View {
+    var icon: String
+    var placeholder: String
+    @Binding var text: String
+    var keyboard: UIKeyboardType = .default
+
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundColor(.gray)
+            TextField(placeholder, text: $text)
+                .keyboardType(keyboard)
+                .autocapitalization(.none)
+        }
+        .padding()
+        .background(Color(UIColor.secondarySystemBackground))
+        .cornerRadius(10)
+    }
+}
+
+struct CustomSecureField: View {
+    var icon: String
+    var placeholder: String
+    @Binding var text: String
+
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundColor(.gray)
+            SecureField(placeholder, text: $text)
+        }
+        .padding()
+        .background(Color(UIColor.secondarySystemBackground))
+        .cornerRadius(10)
+    }
+}

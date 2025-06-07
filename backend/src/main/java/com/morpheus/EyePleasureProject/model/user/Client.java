@@ -46,8 +46,8 @@ public class Client implements IUser {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Artefato> produtos;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Artefato> pizzas;
+    // @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // private List<Artefato> pizzas;
 
     @ElementCollection
     private List<String> informacoesPessoais;

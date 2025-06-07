@@ -1,0 +1,12 @@
+{
+  "id" : 15,
+  "name" : "PizzaBoa",
+  "description" : "Pizza boa mas é uma pelúcia ",
+  "category" : "Pizza ",
+  "price" : "999",
+  "imagePath" : "/uploads/lukao7/Imagens/af93614f-6cf3-452f-8387-6092485e5106.JPG",
+  "modelPath" : "/uploads/lukao7/Modelos/9cef81c7-eee3-46e5-b94f-da9204968881.usdz",
+  "size" : 20,
+  "username" : "lukao7",
+  "info" : [ "PizzaBoa", "Pizza boa mas é uma pelúcia ", "/uploads/lukao7/Imagens/af93614f-6cf3-452f-8387-6092485e5106.JPG", "/uploads/lukao7/Modelos/9cef81c7-eee3-46e5-b94f-da9204968881.usdz" ]
+}

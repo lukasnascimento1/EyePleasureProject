@@ -2,115 +2,91 @@ import SwiftUI
 
 struct LoginView: View {
     @AppStorage("login") var login: String = ""
-    @State private var nickname = ""
-    @State private var senha = ""
-    @State private var erro: String?
-    @State private var isLoading = false
+    @State private var username: String = ""
+    @State private var password: String = ""
+    @State private var showRegister = false
 
     var body: some View {
-        NavigationView {
-            VStack(spacing: 24) {
-                
-                // Ícone do app centralizado no topo
-                Image("MainProjectIcon")
+        NavigationStack {
+            VStack(spacing: 32) {
+                Spacer()
+
+                Image("logo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 120, height: 120)
-                    .padding(.top, 40)
-                
-                Text("EyePleasure")
-                    .foregroundColor(.accentColor)
-                    .padding()
-                    .background(Color.primaryColor)
+                    .frame(height: 120)
+                    .padding(.bottom, 16)
 
-                VStack(spacing: 16) {
-                    TextField("Nickname", text: $nickname)
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
+                Text("Bem-vindo ao EyePleasure")
+                    .font(.title2.bold())
+                    .multilineTextAlignment(.center)
 
-                    SecureField("Senha", text: $senha)
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal)
-
-                if isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                } else {
-                    Button(action: autenticar) {
-                        Text("Entrar")
-                            .bold()
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.orange)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                GroupBox(label: Label("Entrar na conta", systemImage: "person.crop.circle")) {
+                    VStack(spacing: 16) {
+                        inputField(icon: "person", placeholder: "Usuário", text: $username)
+                        secureField(icon: "lock", placeholder: "Senha", text: $password)
                     }
-                    .padding(.horizontal)
+                    .padding(.vertical, 8)
                 }
 
-                NavigationLink("Criar nova conta", destination: RegisterView())
-                    .foregroundColor(.white)
-                    .padding(.top, 10)
-
-                if let erro = erro {
-                    Text(erro)
-                        .foregroundColor(.red)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
+                Button(action: {
+                    login = username // Simula autenticação
+                }) {
+                    Label("Entrar", systemImage: "arrow.right.circle")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
                 }
+                .disabled(username.isEmpty || password.isEmpty)
+
+                // 🔸 Botão Criar Conta
+                Button(action: {
+                    showRegister = true
+                }) {
+                    Label("Criar Conta", systemImage: "person.badge.plus")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                }
+                .padding(.top, -12)
 
                 Spacer()
             }
             .padding()
-            .background(Color.black.edgesIgnoringSafeArea(.all))
-        }
-    }
-
-    func autenticar() {
-        guard let url = URL(string: "\(baseURL)/auth/login") else {
-            erro = "URL inválida"
-            return
-        }
-
-        let usuario = ["nickname": nickname, "psswd": senha]
-        print("Tentando login com \(nickname) / \(senha)")
-        print("Enviando requisição para \(url)")
-        print("Dados: \(usuario)")
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: usuario) else {
-            erro = "Erro ao codificar JSON"
-            return
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        isLoading = true
-        erro = nil
-
-        URLSession.shared.uploadTask(with: request, from: jsonData) { data, response, _ in
-            DispatchQueue.main.async {
-                isLoading = false
-
-                if let httpResponse = response as? HTTPURLResponse {
-                    print("Status code: \(httpResponse.statusCode)")
-                    if httpResponse.statusCode == 200 {
-                        login = nickname
-                    } else {
-                        erro = "Erro no servidor: código \(httpResponse.statusCode)"
-                    }
+            .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .pad ? 500 : .infinity)
+            .sheet(isPresented: $showRegister) {
+                NavigationStack {
+                    RegisterView()
                 }
             }
-        }.resume()
+        }
+    }
+
+    func inputField(icon: String, placeholder: String, text: Binding<String>) -> some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundColor(.gray)
+            TextField(placeholder, text: text)
+                .autocapitalization(.none)
+                .textInputAutocapitalization(.never)
+        }
+        .padding(10)
+        .background(Color(.systemGray6))
+        .cornerRadius(8)
+    }
+
+    func secureField(icon: String, placeholder: String, text: Binding<String>) -> some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundColor(.gray)
+            SecureField(placeholder, text: text)
+        }
+        .padding(10)
+        .background(Color(.systemGray6))
+        .cornerRadius(8)
     }
 }
-
-//struct LoginView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        LoginView()
-//    }
-//}

@@ -5,46 +5,67 @@ struct MenuView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                Text("Bem-vindo, \(login)")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .padding(.top)
+            VStack(spacing: 32) {
+                VStack(spacing: 8) {
+                    Image(systemName: "person.crop.circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(.blue)
 
-                NavigationLink(destination: ProductListView(endpoint: "/products/usuario/\(login)")) {
-                    Label("Meus Modelos", systemImage: "folder")
+                    Text("Bem-vindo, \(login)")
+                        .font(.title2)
+                        .fontWeight(.semibold)
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(.blue)
+                .padding(.top)
 
-                NavigationLink(destination: PublicCatalogView()) {
-                    Label("Ver Cardápio Geral", systemImage: "menucard")
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(.green)
+                VStack(spacing: 16) {
+                    NavigationLink(destination: QRCodeView(url: "https://seudominio.com/cardapio")) {
+                        Label("Ver QR Code do Cardápio", systemImage: "qrcode")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.purple)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
 
-                NavigationLink(destination: UploadView()) {
-                    Label("Enviar Novo Modelo", systemImage: "square.and.arrow.up")
+                    NavigationLink(destination: ProductListView(endpoint: "/products/usuario/\(login)")) {
+                        Label("Ver Meus Produtos", systemImage: "menucard")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
+
+                    NavigationLink(destination: UploadView()) {
+                        Label("Cadastrar Novo Produto", systemImage: "square.and.arrow.up")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.orange)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(.orange)
 
                 Spacer()
 
-                Button("Sair", role: .destructive) {
+                Button(action: {
                     login = ""
+                }) {
+                    Label("Sair", systemImage: "arrow.backward.circle")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.red.opacity(0.9))
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
                 }
                 .padding(.bottom)
             }
             .padding()
+            .frame(maxWidth: UIDevice.current.userInterfaceIdiom == .pad ? 600 : .infinity)
             .navigationTitle("Menu Principal")
-            .animation(.easeInOut, value: login)
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 }
-
-//struct MenuView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MenuView()
-//    }
-//}

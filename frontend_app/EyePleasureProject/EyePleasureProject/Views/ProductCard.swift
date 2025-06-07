@@ -1,34 +1,62 @@
 import SwiftUI
-
-//let baseURL = "http://192.168.86.127:8080" // ✅ Substitua aqui se mudar o IP
+import Foundation
 
 struct ProductCard: View {
-    let produto: Produto
+    var produto: Produto
 
     var body: some View {
-        VStack(alignment: .leading) {
+        HStack(spacing: 16) {
             if let path = produto.imagePath,
-               let url = URL(string: baseURL + path) {
-                AsyncImage(url: url) { image in
-                    image.resizable()
-                        .scaledToFill()
-                        .frame(height: 180)
-                        .clipped()
-                } placeholder: {
-                    ProgressView()
-                        .frame(height: 180)
+               let url = URL(string: Constants.backendBaseURL + path) {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                            .frame(width: 80, height: 80)
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 80, height: 80)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                    case .failure:
+                        Color.red.opacity(0.3)
+                            .frame(width: 80, height: 80)
+                            .overlay(Image(systemName: "xmark.circle"))
+                    @unknown default:
+                        EmptyView()
+                    }
                 }
             }
 
-            Text(produto.name)
-                .font(.headline)
-            Text(produto.description)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(produto.name)
+                    .font(.headline)
+
+                Text(produto.description)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .lineLimit(2)
+
+                HStack(spacing: 8) {
+                    Text("R$ \(produto.price)")
+                        .font(.subheadline.bold())
+                        .foregroundColor(.green)
+
+                    Text(produto.category)
+                        .font(.caption2)
+                        .padding(4)
+                        .background(Color.blue.opacity(0.2))
+                        .foregroundColor(.blue)
+                        .cornerRadius(6)
+                }
+            }
+
+            Spacer()
         }
         .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(radius: 4)
+        .background(.ultraThinMaterial)
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
     }
 }

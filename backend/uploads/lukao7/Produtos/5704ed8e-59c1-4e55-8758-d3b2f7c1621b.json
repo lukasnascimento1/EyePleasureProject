@@ -1,0 +1,12 @@
+{
+  "id" : 14,
+  "name" : "VidaNIntendo",
+  "description" : "Pelúcia do jogo ",
+  "category" : "Pelúcia",
+  "price" : "99",
+  "imagePath" : "/uploads/lukao7/Imagens/512f6a71-dc8f-4217-91cb-53eac4dc3626.JPG",
+  "modelPath" : "/uploads/lukao7/Modelos/520f7a95-b451-4235-ba9c-4541c8cfdf29.usdz",
+  "size" : 10,
+  "username" : "lukao7",
+  "info" : [ "VidaNIntendo", "Pelúcia do jogo ", "/uploads/lukao7/Imagens/512f6a71-dc8f-4217-91cb-53eac4dc3626.JPG", "/uploads/lukao7/Modelos/520f7a95-b451-4235-ba9c-4541c8cfdf29.usdz" ]
+}

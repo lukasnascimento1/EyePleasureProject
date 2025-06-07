@@ -1,6 +1,6 @@
 import SwiftUI
+import Foundation
 
-let baseURL = "http://192.168.86.127:8080"
 
 struct ProductDetailView: View {
     let produto: Produto
@@ -13,7 +13,7 @@ struct ProductDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                if let path = produto.imagePath, let url = URL(string: baseURL + path) {
+                if let path = produto.imagePath, let url = URL(string: Constants.backendBaseURL + path) {
                     AsyncImage(url: url) { image in
                         image.resizable()
                             .scaledToFit()
@@ -35,7 +35,7 @@ struct ProductDetailView: View {
                     .foregroundColor(.secondary)
 
                 Button("🔍 Ver em 3D") {
-                    if let url = URL(string: baseURL + produto.modelPath) {
+                    if let url = URL(string: Constants.backendBaseURL + produto.modelPath) {
                         UIApplication.shared.open(url) // Abre no Safari
                     } else {
                         mostrarErro3D = true

@@ -7,7 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -203,8 +206,8 @@ public class ProductController {
     }
 }
 
-private String getExtension(String filename) {
-    return filename.substring(filename.lastIndexOf('.') + 1);
+    private String getExtension(String filename) {
+        return filename.substring(filename.lastIndexOf('.') + 1);
 }
     
     @PostMapping("/testUpload")
@@ -232,5 +235,32 @@ private String getExtension(String filename) {
     
         return ResponseEntity.ok(doUsuario);
     }
+
+    @GetMapping("/usuario/{username}/porCategoria")
+    public ResponseEntity<Map<String, Set<Artefato>>> listarProdutosDoUsuarioPorCategoria(@PathVariable String username) {
+        Set<Artefato> produtosDoUsuario = produtoRepository.findByUsername(username);
+
+        Map<String, Set<Artefato>> produtosPorCategoria = produtosDoUsuario.stream()
+                .collect(Collectors.groupingBy(
+                    Artefato::getCategory,
+                    Collectors.toSet()
+                ));
+
+        return ResponseEntity.ok(produtosPorCategoria);
+    }
     
+    @PutMapping("/{id}")
+    public ResponseEntity<Artefato> atualizarProduto(@PathVariable Long id, @RequestBody Artefato atualizado) {
+        return produtoRepository.findById(id).map(produto -> {
+            produto.setName(atualizado.getName());
+            produto.setDescription(atualizado.getDescription());
+            produto.setCategory(atualizado.getCategory());
+            produto.setPrice(atualizado.getPrice());
+            produto.setSize(atualizado.getSize());
+            produto.setModelPath(atualizado.getModelPath());
+            produto.setImagePath(atualizado.getImagePath());
+
+            return ResponseEntity.ok(produtoRepository.save(produto));
+        }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

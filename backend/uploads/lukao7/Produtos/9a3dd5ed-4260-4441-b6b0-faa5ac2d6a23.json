@@ -1,0 +1,12 @@
+{
+  "id" : 16,
+  "name" : "Shrek de Barro",
+  "description" : "Vaso de folhas",
+  "category" : "Mobília",
+  "price" : "49,99",
+  "imagePath" : "/uploads/lukao7/Imagens/c68bb3f4-eb4e-45f8-a8aa-1d32bb2c2be0.HEIC",
+  "modelPath" : "/uploads/lukao7/Modelos/a58ca1ea-99ff-48d7-acc2-9f0073bc63e5.usdz",
+  "size" : 30,
+  "username" : "lukao7",
+  "info" : [ "Shrek de Barro", "Vaso de folhas", "/uploads/lukao7/Imagens/c68bb3f4-eb4e-45f8-a8aa-1d32bb2c2be0.HEIC", "/uploads/lukao7/Modelos/a58ca1ea-99ff-48d7-acc2-9f0073bc63e5.usdz" ]
+}

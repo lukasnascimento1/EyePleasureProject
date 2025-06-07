@@ -1,0 +1,12 @@
+{
+  "id" : 17,
+  "name" : "Vaso",
+  "description" : "Vaso de plantas ",
+  "category" : "Vasos",
+  "price" : "99",
+  "imagePath" : "/uploads/joaouser/Imagens/9a4c6523-2f26-4af9-a0e5-f393dfd3f1b8.HEIC",
+  "modelPath" : "/uploads/joaouser/Modelos/60610524-5f16-4dff-b6ac-21c237ef45d9.usdz",
+  "size" : 10,
+  "username" : "joaouser",
+  "info" : [ "Vaso", "Vaso de plantas ", "/uploads/joaouser/Imagens/9a4c6523-2f26-4af9-a0e5-f393dfd3f1b8.HEIC", "/uploads/joaouser/Modelos/60610524-5f16-4dff-b6ac-21c237ef45d9.usdz" ]
+}

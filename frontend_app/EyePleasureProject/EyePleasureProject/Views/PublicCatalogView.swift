@@ -1,4 +1,5 @@
 import SwiftUI
+import Foundation
 
 struct PublicCatalogView: View {
     var body: some View {
